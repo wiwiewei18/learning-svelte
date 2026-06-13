@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DataTable, defineDataTable } from '$lib';
+	import { DataTable, defineDataTable, InMemoryDataTableStore } from '$lib';
 
 	type User = {
 		name: string;
@@ -102,6 +102,9 @@
 			}
 		]
 	});
+
+	const store = new InMemoryDataTableStore();
+	store.init(table.columns, table.rows);
 </script>
 
-<DataTable title="All Users" columns={table.columns} rows={table.rows} />
+<DataTable title="All Users" {store} />

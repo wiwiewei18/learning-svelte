@@ -2,12 +2,14 @@
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import ViewColumnsIcon from '$lib/components/icons/ViewColumnsIcon.svelte';
 	import MagnifyingGlassIcon from '$lib/components/icons/MagnifyingGlassIcon.svelte';
-	import { dataTableStore } from '../stores/dataTable.svelte';
+	import { getDataTableContext } from '../contexts/dataTableContext';
+
+	const store = getDataTableContext();
 
 	let search = $state('');
 
 	const manageableColumns = $derived(
-		dataTableStore.columns.filter((column) => column.showManageColumn !== false)
+		store.columns.filter((column) => column.showManageColumn !== false)
 	);
 
 	const filteredColumns = $derived(
@@ -17,7 +19,7 @@
 	);
 
 	const selectedCount = $derived(
-		filteredColumns.filter((column) => dataTableStore.columnVisibility[column.key] ?? true).length
+		filteredColumns.filter((column) => store.columnVisibility[column.key] ?? true).length
 	);
 
 	const allChecked = $derived(
@@ -26,12 +28,12 @@
 
 	function handleToggleColumn(key: string, event: Event) {
 		const target = event.target as HTMLInputElement;
-		dataTableStore.handleToggleColumn({ key, checked: target.checked });
+		store.handleToggleColumn({ key, checked: target.checked });
 	}
 
 	function handleToggleAll(event: Event) {
 		const target = event.target as HTMLInputElement;
-		dataTableStore.handleToggleAllColumns({
+		store.handleToggleAllColumns({
 			checked: target.checked,
 			keys: filteredColumns.map((column) => column.key)
 		});
@@ -68,7 +70,7 @@
 					<label class="label">
 						<input
 							type="checkbox"
-							checked={dataTableStore.columnVisibility[column.key] ?? true}
+							checked={store.columnVisibility[column.key] ?? true}
 							class="checkbox checkbox-sm"
 							onchange={(event) => handleToggleColumn(column.key, event)}
 						/>

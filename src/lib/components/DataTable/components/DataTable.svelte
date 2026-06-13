@@ -1,20 +1,47 @@
 <script lang="ts">
-	import type { Row, Column } from '../types';
+	import type { IDataTableStore } from '../stores/dataTable.svelte';
 	import ManageColumns from './ManageColumns.svelte';
 	import Table from './Table.svelte';
-	import { dataTableStore } from '../stores/dataTable.svelte';
 	import Filters from './Filters.svelte';
+	import { setDataTableContext } from '../contexts/dataTableContext';
 
 	interface Props {
 		title?: string;
-		columns?: Column[];
-		rows?: Row[];
+		store: IDataTableStore;
 	}
 
-	let { title = 'Data Table', columns = [], rows = [] }: Props = $props();
+	let { title = 'Data Table', store }: Props = $props();
 
-	$effect(() => {
-		dataTableStore.init(columns, rows);
+	setDataTableContext({
+		get columns() {
+			return store.columns;
+		},
+		get rows() {
+			return store.rows;
+		},
+		get filterValues() {
+			return store.filterValues;
+		},
+		get columnVisibility() {
+			return store.columnVisibility;
+		},
+		get visibleColumns() {
+			return store.visibleColumns;
+		},
+		get filteredRows() {
+			return store.filteredRows;
+		},
+		get shouldShowFilters() {
+			return store.shouldShowFilters;
+		},
+		get shouldShowManageColumns() {
+			return store.shouldShowManageColumns;
+		},
+		init: (columns, rows) => store.init(columns, rows),
+		handleFilterChange: (payload) => store.handleFilterChange(payload),
+		handleResetFilters: () => store.handleResetFilters(),
+		handleToggleColumn: (payload) => store.handleToggleColumn(payload),
+		handleToggleAllColumns: (payload) => store.handleToggleAllColumns(payload)
 	});
 </script>
 
@@ -22,16 +49,16 @@
 	<h1 class="mb-2 text-xl font-bold md:mb-0">{title}</h1>
 
 	<div class="flex gap-2">
-		{#if dataTableStore.shouldShowFilters}
+		{#if store.shouldShowFilters}
 			<Filters />
 		{/if}
 
-		{#if dataTableStore.shouldShowManageColumns}
+		{#if store.shouldShowManageColumns}
 			<ManageColumns />
 		{/if}
 	</div>
 </div>
 
 <div class="overflow-x-auto">
-	<Table columns={dataTableStore.visibleColumns} rows={dataTableStore.filteredRows} />
+	<Table columns={store.visibleColumns} rows={store.filteredRows} />
 </div>
