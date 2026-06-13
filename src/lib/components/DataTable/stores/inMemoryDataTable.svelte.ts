@@ -1,24 +1,22 @@
 import type { Column, Row } from '../types';
-import type { IDataTableStore } from './dataTable.svelte';
+import { BaseDataTableStore } from './dataTable.svelte';
 
-export class InMemoryDataTableStore implements IDataTableStore {
-	columns = $state<Column[]>([]);
+/**
+ * In-memory DataTable store.
+ *
+ * Filters rows entirely on the client using Svelte's `$derived`.
+ * Use this when all row data is available upfront.
+ *
+ * @example
+ * ```ts
+ * const store = new InMemoryDataTableStore();
+ * store.init(columns, rows);
+ * ```
+ */
+export class InMemoryDataTableStore extends BaseDataTableStore {
 	rows = $state<Row[]>([]);
-	filterValues = $state<Record<string, string>>({});
-	columnVisibility = $state<Record<string, boolean>>({});
 
-	visibleColumns = $derived(
-		this.columns.filter(
-			(column) => column.showManageColumn === false || (this.columnVisibility[column.key] ?? true)
-		)
-	);
-
-	shouldShowFilters = $derived(this.columns.some((column) => column.showFilter));
-
-	shouldShowManageColumns = $derived(
-		this.columns.some((column) => (column.showManageColumn ?? true) === true)
-	);
-
+	/** Rows filtered client-side based on current `filterValues`. */
 	filteredRows = $derived(
 		this.rows.filter((row) =>
 			this.columns.every((column) => {
@@ -35,38 +33,19 @@ export class InMemoryDataTableStore implements IDataTableStore {
 		)
 	);
 
+	/**
+	 * Initialises the store with column definitions and all row data.
+	 * @param columns - Column definitions.
+	 * @param rows - Full dataset to filter client-side.
+	 */
 	init(columns: Column[], rows: Row[]) {
 		this.columns = columns;
 		this.rows = rows;
 	}
 
-	handleFilterChange({ key, value }: { key: string; value: string }) {
-		this.filterValues = {
-			...this.filterValues,
-			[key]: value
-		};
-	}
-
-	handleResetFilters() {
-		const clearedFilters: Record<string, string> = {};
-		for (const column of this.columns) {
-			clearedFilters[column.key] = '';
-		}
-		this.filterValues = clearedFilters;
-	}
-
-	handleToggleColumn({ key, checked }: { key: string; checked: boolean }) {
-		this.columnVisibility = {
-			...this.columnVisibility,
-			[key]: checked
-		};
-	}
-
-	handleToggleAllColumns({ checked, keys }: { checked: boolean; keys: string[] }) {
-		const nextVisibility = { ...this.columnVisibility };
-		for (const key of keys) {
-			nextVisibility[key] = checked;
-		}
-		this.columnVisibility = nextVisibility;
-	}
+	/**
+	 * No-op — filtering is handled reactively via `$derived`.
+	 * @override
+	 */
+	protected onFiltersChanged() {}
 }
