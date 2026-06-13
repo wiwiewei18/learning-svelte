@@ -6,7 +6,7 @@
   Usage
   ```svelte
   <script>
-    import { DataTable, InMemoryDataTableStore, defineDataTable } from '$lib';
+    import { DataTable, ClientSideDataTableStore, defineDataTable } from '$lib';
 
     const table = defineDataTable({
       columns: [
@@ -19,7 +19,7 @@
       ],
     });
 
-    const store = new InMemoryDataTableStore();
+    const store = new ClientSideDataTableStore();
     store.init(table.columns, table.rows);
   </script>
 
@@ -28,7 +28,7 @@
 
   Props
   - `title` — Table heading. Defaults to `'Data Table'`.
-  - `store` — An `IDataTableStore` instance. Use `InMemoryDataTableStore` for client-side filtering,
+  - `store` — An `IDataTableStore` instance. Use `ClientSideDataTableStore` for client-side filtering,
     or provide a custom implementation for server-side data.
 -->
 <script lang="ts">
@@ -46,7 +46,7 @@
 		title?: string;
 		/**
 		 * The store instance that drives this table.
-		 * Use `InMemoryDataTableStore` for client-side filtering,
+		 * Use `ClientSideDataTableStore` for client-side filtering,
 		 * or provide a custom implementation of `IDataTableStore` for server-side data.
 		 */
 		store: IDataTableStore;

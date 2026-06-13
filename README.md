@@ -25,12 +25,12 @@ Building a generic, reusable `DataTable` component that can be used across diffe
 
 ### 2. Dependency Injection — Switching Between Client-side & Server-side DataTable
 
-Using the **dependency injection** pattern via Svelte's Context API to decouple data logic from the UI. A store is injected into the component, making it easy to swap between an in-memory (client-side) and a server-side implementation without touching the UI components.
+Using the **dependency injection** pattern via Svelte's Context API to decouple data logic from the UI. A store is injected into the component, making it easy to swap between a client-side and a server-side implementation without touching the UI components.
 
 **Implementation:**
 
 - Context provider: [`src/lib/components/DataTable/context.ts`](./src/lib/components/DataTable/context.ts)
-- In-memory store (client-side): [`src/lib/components/DataTable/stores/inMemoryDataTable.svelte.ts`](./src/lib/components/DataTable/stores/inMemoryDataTable.svelte.ts)
+- Client-side store: [`src/lib/components/DataTable/stores/clientSideDataTable.svelte.ts`](./src/lib/components/DataTable/stores/clientSideDataTable.svelte.ts)
 - Base store interface: [`src/lib/components/DataTable/stores/dataTable.svelte.ts`](./src/lib/components/DataTable/stores/dataTable.svelte.ts)
 
 ---
