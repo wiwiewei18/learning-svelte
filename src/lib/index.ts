@@ -1,1 +1,2 @@
-// place files you want to import through the `$lib` alias in this folder.
+export { DataTable, defineDataTable, InMemoryDataTableStore } from './components/DataTable';
+export type { Row, Column, TableDefinition, IDataTableStore } from './components/DataTable';
