@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Row, Column } from './types';
+	import type { Row, Column } from '../types';
 
 	interface Props {
 		columns?: Column[];

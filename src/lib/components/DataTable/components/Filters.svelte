@@ -1,18 +1,10 @@
 <script lang="ts">
-	import type { Column } from './types';
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import FunnelIcon from '$lib/components/icons/FunnelIcon.svelte';
+	import { dataTableStore } from '../stores/dataTable.svelte';
+	import type { Column } from '../types';
 
-	interface Props {
-		columns?: Column[];
-		values?: Record<string, string>;
-		onChange?: (payload: { key: string; value: string }) => void;
-		onReset?: () => void;
-	}
-
-	let { columns = [], values = {}, onChange = () => {}, onReset = () => {} }: Props = $props();
-
-	const filterableColumns = $derived(columns.filter((column) => column.showFilter));
+	const filterableColumns = $derived(dataTableStore.columns.filter((column) => column.showFilter));
 
 	function getPlaceholder(column: Column) {
 		return `Filter by ${column.label}`;
@@ -20,11 +12,7 @@
 
 	function handleInputChange(key: string, event: Event) {
 		const target = event.target as HTMLInputElement;
-		onChange({ key, value: target.value });
-	}
-
-	function handleReset() {
-		onReset();
+		dataTableStore.handleFilterChange({ key, value: target.value });
 	}
 </script>
 
@@ -46,7 +34,7 @@
 							type="search"
 							class="input input-sm"
 							placeholder={getPlaceholder(column)}
-							value={values[column.key] ?? ''}
+							value={dataTableStore.filterValues[column.key] ?? ''}
 							oninput={(event) => handleInputChange(column.key, event)}
 						/>
 					</label>
@@ -55,7 +43,7 @@
 				<button
 					type="button"
 					class="btn btn-sm btn-outline btn-secondary mt-2"
-					onclick={handleReset}
+					onclick={() => dataTableStore.handleResetFilters()}
 				>
 					Reset Filters
 				</button>

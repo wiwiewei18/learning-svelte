@@ -12,12 +12,12 @@
 
 	const table = defineDataTable<User>({
 		columns: [
-			{ key: 'name', label: 'Name', showFilter: true, showManageColumn: true },
-			{ key: 'job', label: 'Job', showFilter: true, showManageColumn: true },
-			{ key: 'company', label: 'Company', showFilter: true, showManageColumn: true },
-			{ key: 'location', label: 'Location', showFilter: true, showManageColumn: true },
-			{ key: 'favoriteColor', label: 'Favorite Color', showFilter: false, showManageColumn: false },
-			{ key: 'lastLogin', label: 'Last Login', showFilter: false, showManageColumn: false }
+			{ key: 'name', label: 'Name', showFilter: true, showManageColumn: false },
+			{ key: 'job', label: 'Job', showFilter: true, showManageColumn: false },
+			{ key: 'company', label: 'Company', showFilter: true, showManageColumn: false },
+			{ key: 'location', label: 'Location', showFilter: true, showManageColumn: false },
+			{ key: 'favoriteColor', label: 'Favorite Color', showFilter: false, showManageColumn: true },
+			{ key: 'lastLogin', label: 'Last Login', showFilter: false, showManageColumn: true }
 		],
 		rows: [
 			{

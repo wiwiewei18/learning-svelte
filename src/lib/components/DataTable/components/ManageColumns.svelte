@@ -1,26 +1,14 @@
 <script lang="ts">
-	import type { Column } from './types';
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import ViewColumnsIcon from '$lib/components/icons/ViewColumnsIcon.svelte';
 	import MagnifyingGlassIcon from '$lib/components/icons/MagnifyingGlassIcon.svelte';
-
-	interface Props {
-		columns?: Column[];
-		columnVisibility?: Record<string, boolean>;
-		onToggle?: (payload: { key: string; checked: boolean }) => void;
-		onToggleAll?: (payload: { checked: boolean; keys: string[] }) => void;
-	}
-
-	let {
-		columns = [],
-		columnVisibility = {},
-		onToggle = () => {},
-		onToggleAll = () => {}
-	}: Props = $props();
+	import { dataTableStore } from '../stores/dataTable.svelte';
 
 	let search = $state('');
 
-	const manageableColumns = $derived(columns.filter((column) => column.showManageColumn !== false));
+	const manageableColumns = $derived(
+		dataTableStore.columns.filter((column) => column.showManageColumn !== false)
+	);
 
 	const filteredColumns = $derived(
 		manageableColumns.filter((column) =>
@@ -29,7 +17,7 @@
 	);
 
 	const selectedCount = $derived(
-		filteredColumns.filter((column) => columnVisibility[column.key] ?? true).length
+		filteredColumns.filter((column) => dataTableStore.columnVisibility[column.key] ?? true).length
 	);
 
 	const allChecked = $derived(
@@ -38,12 +26,12 @@
 
 	function handleToggleColumn(key: string, event: Event) {
 		const target = event.target as HTMLInputElement;
-		onToggle({ key, checked: target.checked });
+		dataTableStore.handleToggleColumn({ key, checked: target.checked });
 	}
 
 	function handleToggleAll(event: Event) {
 		const target = event.target as HTMLInputElement;
-		onToggleAll({
+		dataTableStore.handleToggleAllColumns({
 			checked: target.checked,
 			keys: filteredColumns.map((column) => column.key)
 		});
@@ -80,7 +68,7 @@
 					<label class="label">
 						<input
 							type="checkbox"
-							checked={columnVisibility[column.key] ?? true}
+							checked={dataTableStore.columnVisibility[column.key] ?? true}
 							class="checkbox checkbox-sm"
 							onchange={(event) => handleToggleColumn(column.key, event)}
 						/>
