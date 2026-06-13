@@ -14,7 +14,7 @@
 		"format": "prettier --write .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright install && playwright test"
+		"test:e2e": "bddgen && playwright test"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
@@ -44,6 +44,7 @@
 		"vitest-browser-svelte": "^2.1.1"
 	},
 	"dependencies": {
-		"daisyui": "^5.5.23"
+		"daisyui": "^5.5.23",
+		"prettier-plugin-gherkin": "^4.0.0"
 	}
 }
