@@ -34,7 +34,7 @@ export class ClientSideDataTableStore extends BaseDataTableStore {
 	);
 
 	/**
-	 * Initialises the store with column definitions and all row data.
+	 * Initializes the store with column definitions and all row data.
 	 * @param columns - Column definitions.
 	 * @param rows - Full dataset to filter client-side.
 	 */

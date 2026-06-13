@@ -27,7 +27,7 @@ export interface IDataTableStore {
 	readonly shouldShowManageColumns: boolean;
 
 	/**
-	 * Initialises the store with column definitions and row data.
+	 * Initializes the store with column definitions and row data.
 	 * @param columns - Column definitions.
 	 * @param rows - Row data.
 	 */

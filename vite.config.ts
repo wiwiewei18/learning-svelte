@@ -26,6 +26,19 @@ export default defineConfig({
 			{
 				extends: './vite.config.ts',
 				test: {
+					name: 'unit',
+					browser: {
+						enabled: true,
+						provider: playwright(),
+						instances: [{ browser: 'chromium', headless: true }]
+					},
+					include: ['src/**/*.svelte.unit.test.{js,ts}'],
+					exclude: ['src/lib/server/**']
+				}
+			},
+			{
+				extends: './vite.config.ts',
+				test: {
 					name: 'client',
 					browser: {
 						enabled: true,
@@ -33,17 +46,16 @@ export default defineConfig({
 						instances: [{ browser: 'chromium', headless: true }]
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['src/lib/server/**']
+					exclude: ['src/**/*.svelte.unit.test.{js,ts}', 'src/lib/server/**']
 				}
 			},
-
 			{
 				extends: './vite.config.ts',
 				test: {
 					name: 'server',
 					environment: 'node',
 					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
+					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/**/*.svelte.unit.test.{js,ts}']
 				}
 			}
 		]
