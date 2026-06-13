@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { defineDataTable } from './types';
 
 describe('defineDataTable', () => {
-	it('should return the same object reference that was passed in', () => {
+	it('should return the same object reference when passed a valid definition', () => {
 		const definition = {
 			columns: [{ key: 'id' as const, label: 'ID' }],
 			rows: [{ id: 1 }]
@@ -13,7 +13,7 @@ describe('defineDataTable', () => {
 		expect(result).toBe(definition);
 	});
 
-	it('should return columns unchanged', () => {
+	it('should return columns unchanged when passed a definition with columns', () => {
 		const columns = [
 			{ key: 'id' as const, label: 'ID' },
 			{ key: 'name' as const, label: 'Name', showFilter: true, showManageColumn: true }
@@ -24,7 +24,7 @@ describe('defineDataTable', () => {
 		expect(result.columns).toEqual(columns);
 	});
 
-	it('should return rows unchanged', () => {
+	it('should return rows unchanged when passed a definition with rows', () => {
 		const rows = [
 			{ id: 1, name: 'Alice' },
 			{ id: 2, name: 'Bob' }
@@ -41,13 +41,13 @@ describe('defineDataTable', () => {
 		expect(result.rows).toEqual(rows);
 	});
 
-	it('should work with empty columns and rows', () => {
+	it('should work when passed empty columns and rows', () => {
 		const result = defineDataTable({ columns: [], rows: [] });
 
 		expect(result).toEqual({ columns: [], rows: [] });
 	});
 
-	it('should work with optional column fields omitted', () => {
+	it('should preserve the definition when optional column fields are omitted', () => {
 		const result = defineDataTable({
 			columns: [{ key: 'id' as const, label: 'ID' }],
 			rows: [{ id: 1 }]
@@ -56,7 +56,7 @@ describe('defineDataTable', () => {
 		expect(result.columns[0]).toEqual({ key: 'id', label: 'ID' });
 	});
 
-	it('should work with all optional column fields provided', () => {
+	it('should preserve the definition when all optional column fields are provided', () => {
 		const result = defineDataTable({
 			columns: [{ key: 'id' as const, label: 'ID', showFilter: true, showManageColumn: false }],
 			rows: [{ id: 1 }]

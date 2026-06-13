@@ -16,7 +16,7 @@ const ROWS: Row[] = [
 
 describe('ClientSideDataTableStore', () => {
 	describe('init', () => {
-		it('should set columns and rows', () => {
+		it('should set columns and rows when init is called', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -24,7 +24,7 @@ describe('ClientSideDataTableStore', () => {
 			expect(store.rows).toEqual(ROWS);
 		});
 
-		it('should initialize with empty rows before init is called', () => {
+		it('should initialize with empty rows when init has not been called', () => {
 			const store = new ClientSideDataTableStore();
 
 			expect(store.rows).toEqual([]);
@@ -59,7 +59,7 @@ describe('ClientSideDataTableStore', () => {
 	});
 
 	describe('filteredRows — single column filter', () => {
-		it('should return rows matching the filter value', () => {
+		it('should return only matching rows when filter value is set', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -68,7 +68,7 @@ describe('ClientSideDataTableStore', () => {
 			expect(store.filteredRows).toEqual([{ id: 1, name: 'Alice', email: 'alice@example.com' }]);
 		});
 
-		it('should be case-insensitive', () => {
+		it('should match rows case-insensitively when filter value differs in case', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -77,7 +77,7 @@ describe('ClientSideDataTableStore', () => {
 			expect(store.filteredRows).toEqual([{ id: 1, name: 'Alice', email: 'alice@example.com' }]);
 		});
 
-		it('should match partial values (contains)', () => {
+		it('should return rows containing the filter value as a substring', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -99,7 +99,7 @@ describe('ClientSideDataTableStore', () => {
 			expect(store.filteredRows).toEqual([{ id: 2, name: 'Bob', email: 'bob@example.com' }]);
 		});
 
-		it('should return empty array when no rows match', () => {
+		it('should return empty array when no rows match the filter value', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -110,7 +110,7 @@ describe('ClientSideDataTableStore', () => {
 	});
 
 	describe('filteredRows — column with showFilter: false', () => {
-		it('should not filter rows when column has showFilter: false', () => {
+		it('should not filter rows when the column has showFilter: false', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -122,7 +122,7 @@ describe('ClientSideDataTableStore', () => {
 	});
 
 	describe('filteredRows — multi-column filter (AND logic)', () => {
-		it('should apply filters on multiple columns simultaneously', () => {
+		it('should return rows matching all active filters simultaneously', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -144,7 +144,7 @@ describe('ClientSideDataTableStore', () => {
 	});
 
 	describe('filteredRows — after handleResetFilters', () => {
-		it('should return all rows after filters are reset', () => {
+		it('should return all rows when filters are reset', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -156,7 +156,7 @@ describe('ClientSideDataTableStore', () => {
 	});
 
 	describe('filteredRows — null and undefined cell values', () => {
-		it('should not throw and treat null cell value as empty string', () => {
+		it('should not throw and treat null cell value as empty string when filtering', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, [{ id: 1, name: null, email: 'test@example.com' }]);
 
@@ -165,7 +165,7 @@ describe('ClientSideDataTableStore', () => {
 			expect(store.filteredRows).toEqual([]);
 		});
 
-		it('should not throw and treat undefined cell value as empty string', () => {
+		it('should not throw and treat undefined cell value as empty string when filtering', () => {
 			const store = new ClientSideDataTableStore();
 			store.init(COLUMNS, [{ id: 1, email: 'test@example.com' }]);
 

@@ -31,7 +31,7 @@ const ROWS: Row[] = [
 
 describe('BaseDataTableStore', () => {
 	describe('initial state', () => {
-		it('should initialize with empty columns, filterValues, and columnVisibility', () => {
+		it('should initialize with empty columns, filterValues, and columnVisibility when instantiated', () => {
 			const store = new TestDataTableStore();
 
 			expect(store.columns).toEqual([]);
@@ -41,7 +41,7 @@ describe('BaseDataTableStore', () => {
 	});
 
 	describe('init', () => {
-		it('should set columns and rows', () => {
+		it('should set columns and rows when init is called', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -58,7 +58,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.visibleColumns).toEqual(COLUMNS);
 		});
 
-		it('should always include columns with showManageColumn: false', () => {
+		it('should always include column when showManageColumn is false', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -109,7 +109,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.shouldShowFilters).toBe(false);
 		});
 
-		it('should return false when showFilter is not defined', () => {
+		it('should return false when showFilter is not defined on any column', () => {
 			const store = new TestDataTableStore();
 			store.init([{ key: 'id', label: 'ID' }], ROWS);
 
@@ -147,7 +147,7 @@ describe('BaseDataTableStore', () => {
 	});
 
 	describe('handleFilterChange', () => {
-		it('should update filterValues for the given key', () => {
+		it('should update filterValues for the given key when called', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -167,7 +167,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.filterValues['email']).toBe('alice@example.com');
 		});
 
-		it('should call onFiltersChanged after updating filter', () => {
+		it('should call onFiltersChanged when a filter value is updated', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -178,7 +178,7 @@ describe('BaseDataTableStore', () => {
 	});
 
 	describe('handleResetFilters', () => {
-		it('should reset all filterValues to empty string', () => {
+		it('should reset all filterValues to empty string when called', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -189,7 +189,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.filterValues).toEqual({ id: '', name: '', email: '' });
 		});
 
-		it('should reset to keys matching current columns only', () => {
+		it('should reset only keys matching current columns when called', () => {
 			const store = new TestDataTableStore();
 			store.init([{ key: 'name', label: 'Name' }], ROWS);
 
@@ -198,7 +198,7 @@ describe('BaseDataTableStore', () => {
 			expect(Object.keys(store.filterValues)).toEqual(['name']);
 		});
 
-		it('should call onFiltersChanged after reset', () => {
+		it('should call onFiltersChanged when filters are reset', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -209,7 +209,7 @@ describe('BaseDataTableStore', () => {
 	});
 
 	describe('handleToggleColumn', () => {
-		it('should set column visibility to false', () => {
+		it('should set column visibility to false when checked is false', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -218,7 +218,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.columnVisibility['name']).toBe(false);
 		});
 
-		it('should set column visibility to true', () => {
+		it('should set column visibility to true when checked is true', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -228,7 +228,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.columnVisibility['name']).toBe(true);
 		});
 
-		it('should not affect other column visibility', () => {
+		it('should not affect other columns when toggling one column', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -239,7 +239,7 @@ describe('BaseDataTableStore', () => {
 	});
 
 	describe('handleToggleAllColumns', () => {
-		it('should set all given keys to false', () => {
+		it('should set all given keys to false when checked is false', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -249,7 +249,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.columnVisibility['email']).toBe(false);
 		});
 
-		it('should set all given keys to true', () => {
+		it('should set all given keys to true when checked is true', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
@@ -269,7 +269,7 @@ describe('BaseDataTableStore', () => {
 			expect(store.columnVisibility['email']).toBeUndefined();
 		});
 
-		it('should handle an empty keys array without error', () => {
+		it('should not throw when keys array is empty', () => {
 			const store = new TestDataTableStore();
 			store.init(COLUMNS, ROWS);
 
