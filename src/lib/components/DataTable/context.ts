@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte';
-import type { IDataTableStore } from '../stores/dataTable.svelte';
+import type { IDataTableStore } from './stores/dataTable.svelte';
 
 const DATA_TABLE_CONTEXT_KEY = Symbol('DataTableStore');
 

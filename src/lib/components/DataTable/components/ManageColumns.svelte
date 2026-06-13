@@ -2,7 +2,7 @@
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import ViewColumnsIcon from '$lib/components/icons/ViewColumnsIcon.svelte';
 	import MagnifyingGlassIcon from '$lib/components/icons/MagnifyingGlassIcon.svelte';
-	import { getDataTableContext } from '../contexts/dataTableContext';
+	import { getDataTableContext } from '../context';
 
 	const store = getDataTableContext();
 

@@ -3,7 +3,7 @@
 	import ManageColumns from './ManageColumns.svelte';
 	import Table from './Table.svelte';
 	import Filters from './Filters.svelte';
-	import { setDataTableContext } from '../contexts/dataTableContext';
+	import { setDataTableContext } from '../context';
 
 	interface Props {
 		title?: string;

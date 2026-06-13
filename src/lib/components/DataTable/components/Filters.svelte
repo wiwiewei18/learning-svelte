@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import FunnelIcon from '$lib/components/icons/FunnelIcon.svelte';
-	import { getDataTableContext } from '../contexts/dataTableContext';
+	import { getDataTableContext } from '../context';
 	import type { Column } from '../types';
 
 	const store = getDataTableContext();
