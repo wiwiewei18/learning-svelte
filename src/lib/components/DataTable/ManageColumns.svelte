@@ -1,7 +1,53 @@
 <script lang="ts">
+	import type { Column } from './types';
 	import ChevronDownIcon from '$lib/components/icons/ChevronDownIcon.svelte';
 	import ViewColumnsIcon from '$lib/components/icons/ViewColumnsIcon.svelte';
 	import MagnifyingGlassIcon from '$lib/components/icons/MagnifyingGlassIcon.svelte';
+
+	interface Props {
+		columns?: Column[];
+		columnVisibility?: Record<string, boolean>;
+		onToggle?: (payload: { key: string; checked: boolean }) => void;
+		onToggleAll?: (payload: { checked: boolean; keys: string[] }) => void;
+	}
+
+	let {
+		columns = [],
+		columnVisibility = {},
+		onToggle = () => {},
+		onToggleAll = () => {}
+	}: Props = $props();
+
+	let search = $state('');
+
+	const manageableColumns = $derived(columns.filter((column) => column.showManageColumn !== false));
+
+	const filteredColumns = $derived(
+		manageableColumns.filter((column) =>
+			column.label.toLowerCase().includes(search.trim().toLowerCase())
+		)
+	);
+
+	const selectedCount = $derived(
+		filteredColumns.filter((column) => columnVisibility[column.key] ?? true).length
+	);
+
+	const allChecked = $derived(
+		filteredColumns.length > 0 && selectedCount === filteredColumns.length
+	);
+
+	function handleToggleColumn(key: string, event: Event) {
+		const target = event.target as HTMLInputElement;
+		onToggle({ key, checked: target.checked });
+	}
+
+	function handleToggleAll(event: Event) {
+		const target = event.target as HTMLInputElement;
+		onToggleAll({
+			checked: target.checked,
+			keys: filteredColumns.map((column) => column.key)
+		});
+	}
 </script>
 
 <div class="dropdown dropdown-end w-full md:w-auto">
@@ -14,21 +60,33 @@
 		<div class="card-body">
 			<label class="input input-sm mb-1">
 				<MagnifyingGlassIcon />
-				<input type="search" placeholder="Search columns" />
+				<input type="search" placeholder="Search columns" bind:value={search} />
 			</label>
 
-			{#if false}
+			{#if filteredColumns.length === 0}
 				<p class="text-sm opacity-70">No manageable columns.</p>
 			{:else}
 				<label class="label">
-					<input type="checkbox" checked={false} class="checkbox checkbox-sm" />
+					<input
+						type="checkbox"
+						checked={allChecked}
+						class="checkbox checkbox-sm"
+						onchange={handleToggleAll}
+					/>
 					Select All
 				</label>
 
-				<label class="label">
-					<input type="checkbox" checked={false} class="checkbox checkbox-sm" />
-					Name
-				</label>
+				{#each filteredColumns as column (column.key)}
+					<label class="label">
+						<input
+							type="checkbox"
+							checked={columnVisibility[column.key] ?? true}
+							class="checkbox checkbox-sm"
+							onchange={(event) => handleToggleColumn(column.key, event)}
+						/>
+						{column.label}
+					</label>
+				{/each}
 			{/if}
 		</div>
 	</div>
