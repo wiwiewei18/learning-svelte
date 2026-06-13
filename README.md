@@ -50,6 +50,24 @@ Libraries used: [Playwright](https://playwright.dev/) + [playwright-bdd](https:/
 
 ---
 
+### 4. Unit Testing with Vitest
+
+Writing unit tests for stores, utility functions, and context helpers using **Vitest** with a multi-project setup to handle different environments:
+
+- **`unit` project** — runs in a real **Chromium browser** (via `@vitest/browser-playwright`) for files that use Svelte runes (`$state`, `$derived`). Pattern: `*.svelte.unit.test.ts`
+- **`server` project** — runs in **Node.js** for pure TypeScript files that don't require a browser. Pattern: `*.unit.test.ts`
+
+Each test file is **co-located** next to the source file it tests.
+
+**Implementation:**
+
+- Base store tests: [`src/lib/components/DataTable/stores/dataTable.svelte.unit.test.ts`](./src/lib/components/DataTable/stores/dataTable.svelte.unit.test.ts)
+- Client-side store tests: [`src/lib/components/DataTable/stores/clientSideDataTable.svelte.unit.test.ts`](./src/lib/components/DataTable/stores/clientSideDataTable.svelte.unit.test.ts)
+- Context helper tests: [`src/lib/components/DataTable/context.svelte.unit.test.ts`](./src/lib/components/DataTable/context.svelte.unit.test.ts)
+- Type helper tests: [`src/lib/components/DataTable/types.unit.test.ts`](./src/lib/components/DataTable/types.unit.test.ts)
+
+---
+
 ## Getting Started
 
 Install dependencies:
@@ -65,6 +83,18 @@ npm run dev
 ```
 
 ## Testing
+
+Run unit tests:
+
+```sh
+npm run test:unit
+```
+
+Run unit tests in watch mode:
+
+```sh
+npm run test:unit:dev
+```
 
 Run e2e tests:
 
