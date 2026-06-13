@@ -1,2 +1,5 @@
-<h1>Welcome to SvelteKit</h1>
-<button class="btn btn-primary">Click me</button>
+<script lang="ts">
+	import DataTable from '$lib/components/DataTable/DataTable.svelte';
+</script>
+
+<DataTable />
