@@ -1,11 +1,7 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
-const { Given, When, Then } = createBdd();
-
-Given('I am on the home page', async ({ page }) => {
-	await page.goto('/');
-});
+const { When, Then } = createBdd();
 
 When('I look at the page', async () => {
 	// no action needed, just observing the page
@@ -21,11 +17,6 @@ When('I look at the table headers', async () => {
 
 Then('I should see a table titled {string}', async ({ page }, title: string) => {
 	await expect(page.getByRole('heading', { name: title })).toBeVisible();
-});
-
-Then('the table should display {int} users', async ({ page }, count: number) => {
-	const rows = page.locator('table tbody tr');
-	await expect(rows).toHaveCount(count);
 });
 
 Then('the table should have the following columns', async ({ page }, dataTable) => {
