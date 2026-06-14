@@ -1,8 +1,15 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
+import type { BrowserConfigOptions } from 'vitest/node';
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
+
+const browserConfig: BrowserConfigOptions = {
+	enabled: true,
+	provider: playwright(),
+	instances: [{ browser: 'chromium', headless: true }]
+};
 
 export default defineConfig({
 	plugins: [
@@ -26,24 +33,26 @@ export default defineConfig({
 			{
 				extends: './vite.config.ts',
 				test: {
-					name: 'client',
-					browser: {
-						enabled: true,
-						provider: playwright(),
-						instances: [{ browser: 'chromium', headless: true }]
-					},
-					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['src/lib/server/**']
+					name: 'unit',
+					browser: browserConfig,
+					include: ['src/**/*.svelte.unit.test.{js,ts}']
 				}
 			},
-
 			{
 				extends: './vite.config.ts',
 				test: {
-					name: 'server',
+					name: 'component',
+					browser: browserConfig,
+					include: ['src/**/*.svelte.component.test.{js,ts}']
+				}
+			},
+			{
+				extends: './vite.config.ts',
+				test: {
+					name: 'node',
 					environment: 'node',
-					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
+					include: ['src/**/*.unit.test.{js,ts}'],
+					exclude: ['src/**/*.svelte.unit.test.{js,ts}', 'src/**/*.svelte.component.test.{js,ts}']
 				}
 			}
 		]

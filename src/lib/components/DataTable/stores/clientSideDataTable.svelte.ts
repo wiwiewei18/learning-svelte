@@ -2,18 +2,18 @@ import type { Column, Row } from '../types';
 import { BaseDataTableStore } from './dataTable.svelte';
 
 /**
- * In-memory DataTable store.
+ * Client-side DataTable store.
  *
  * Filters rows entirely on the client using Svelte's `$derived`.
  * Use this when all row data is available upfront.
  *
  * @example
  * ```ts
- * const store = new InMemoryDataTableStore();
+ * const store = new ClientSideDataTableStore();
  * store.init(columns, rows);
  * ```
  */
-export class InMemoryDataTableStore extends BaseDataTableStore {
+export class ClientSideDataTableStore extends BaseDataTableStore {
 	rows = $state<Row[]>([]);
 
 	/** Rows filtered client-side based on current `filterValues`. */
@@ -34,7 +34,7 @@ export class InMemoryDataTableStore extends BaseDataTableStore {
 	);
 
 	/**
-	 * Initialises the store with column definitions and all row data.
+	 * Initializes the store with column definitions and all row data.
 	 * @param columns - Column definitions.
 	 * @param rows - Full dataset to filter client-side.
 	 */
