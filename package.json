@@ -13,8 +13,10 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:unit": "vitest --project=unit --project=server run --reporter=verbose",
-		"test:unit:dev": "vitest --project=unit --project=server --reporter=verbose",
+		"test:unit": "vitest --project=unit --project=node run --reporter=verbose",
+		"test:unit:dev": "vitest --project=unit --project=node --reporter=verbose",
+		"test:component": "vitest --project=component run --reporter=verbose",
+		"test:component:dev": "vitest --project=component --reporter=verbose",
 		"test:e2e": "bddgen && playwright test",
 		"test:e2e:report": "playwright show-report"
 	},
