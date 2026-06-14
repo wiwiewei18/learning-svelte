@@ -3,5 +3,5 @@
 		"*.css": "tailwindcss"
 	},
 	"cucumber.features": ["tests/e2e/*.feature"],
-	"cucumber.glue": ["tests/e2e/*.e2e.ts"]
+	"cucumber.glue": ["tests/e2e/*.e2e.test.ts"]
 }

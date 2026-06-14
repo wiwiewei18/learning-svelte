@@ -46,7 +46,7 @@ Libraries used: [Playwright](https://playwright.dev/) + [playwright-bdd](https:/
 - View user list scenarios: [`tests/e2e/viewUserList.feature`](./tests/e2e/viewUserList.feature)
 - Filter user list scenarios: [`tests/e2e/filterUserList.feature`](./tests/e2e/filterUserList.feature)
 - Manage column visibility scenarios: [`tests/e2e/manageColumnVisibility.feature`](./tests/e2e/manageColumnVisibility.feature)
-- Shared step definitions: [`tests/e2e/shared.e2e.ts`](./tests/e2e/shared.e2e.ts)
+- Shared step definitions: [`tests/e2e/shared.e2e.test.ts`](./tests/e2e/shared.e2e.test.ts)
 
 ---
 
