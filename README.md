@@ -55,7 +55,7 @@ Libraries used: [Playwright](https://playwright.dev/) + [playwright-bdd](https:/
 Writing unit tests for stores, utility functions, and context helpers using **Vitest** with a multi-project setup to handle different environments:
 
 - **`unit` project** — runs in a real **Chromium browser** (via `@vitest/browser-playwright`) for files that use Svelte runes (`$state`, `$derived`). Pattern: `*.svelte.unit.test.ts`
-- **`server` project** — runs in **Node.js** for pure TypeScript files that don't require a browser. Pattern: `*.unit.test.ts`
+- **`node` project** — runs in **Node.js** for pure TypeScript files that don't require a browser. Pattern: `*.unit.test.ts`
 
 Each test file is **co-located** next to the source file it tests.
 
@@ -65,6 +65,25 @@ Each test file is **co-located** next to the source file it tests.
 - Client-side store tests: [`src/lib/components/DataTable/stores/clientSideDataTable.svelte.unit.test.ts`](./src/lib/components/DataTable/stores/clientSideDataTable.svelte.unit.test.ts)
 - Context helper tests: [`src/lib/components/DataTable/context.svelte.unit.test.ts`](./src/lib/components/DataTable/context.svelte.unit.test.ts)
 - Type helper tests: [`src/lib/components/DataTable/types.unit.test.ts`](./src/lib/components/DataTable/types.unit.test.ts)
+
+---
+
+### 5. Integration Testing — Component Tests with Vitest Browser
+
+Writing **component (integration) tests** that render Svelte components in a real **Chromium browser** using [vitest-browser-svelte](https://github.com/vitest-dev/vitest-browser-svelte). These tests sit between unit tests and E2E tests: they verify that components render correctly and respond to user interactions, without requiring a running dev server.
+
+Because child components like `Filters` and `ManageColumns` rely on Svelte's Context API (set up by `DataTable`), they are tested by rendering the full `DataTable` component — making these **integration tests** in practice.
+
+Libraries used: [Vitest](https://vitest.dev/) + [@vitest/browser](https://vitest.dev/guide/browser/) + [vitest-browser-svelte](https://github.com/vitest-dev/vitest-browser-svelte)
+
+- **`component` project** — runs in a real **Chromium browser**. Pattern: `*.svelte.component.test.ts`
+
+**Implementation:**
+
+- `Table` component tests: [`src/lib/components/DataTable/components/Table.svelte.component.test.ts`](./src/lib/components/DataTable/components/Table.svelte.component.test.ts)
+- `DataTable` component tests: [`src/lib/components/DataTable/components/DataTable.svelte.component.test.ts`](./src/lib/components/DataTable/components/DataTable.svelte.component.test.ts)
+- `Filters` component tests: [`src/lib/components/DataTable/components/Filters.svelte.component.test.ts`](./src/lib/components/DataTable/components/Filters.svelte.component.test.ts)
+- `ManageColumns` component tests: [`src/lib/components/DataTable/components/ManageColumns.svelte.component.test.ts`](./src/lib/components/DataTable/components/ManageColumns.svelte.component.test.ts)
 
 ---
 
@@ -94,6 +113,18 @@ Run unit tests in watch mode:
 
 ```sh
 npm run test:unit:dev
+```
+
+Run component tests:
+
+```sh
+npm run test:component
+```
+
+Run component tests in watch mode:
+
+```sh
+npm run test:component:dev
 ```
 
 Run e2e tests:
