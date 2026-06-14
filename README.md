@@ -35,22 +35,7 @@ Using the **dependency injection** pattern via Svelte's Context API to decouple 
 
 ---
 
-### 3. UAT-based E2E Testing with Playwright + BDD
-
-Writing end-to-end tests using the **BDD (Behavior-Driven Development)** approach with **Gherkin** syntax (`Given / When / Then`). Each scenario is written from the user's perspective as a _user story_, aligning with **User Acceptance Testing (UAT)**.
-
-Libraries used: [Playwright](https://playwright.dev/) + [playwright-bdd](https://github.com/vitalets/playwright-bdd)
-
-**Implementation:**
-
-- View user list scenarios: [`tests/e2e/viewUserList.feature`](./tests/e2e/viewUserList.feature)
-- Filter user list scenarios: [`tests/e2e/filterUserList.feature`](./tests/e2e/filterUserList.feature)
-- Manage column visibility scenarios: [`tests/e2e/manageColumnVisibility.feature`](./tests/e2e/manageColumnVisibility.feature)
-- Shared step definitions: [`tests/e2e/shared.e2e.test.ts`](./tests/e2e/shared.e2e.test.ts)
-
----
-
-### 4. Unit Testing with Vitest
+### 3. Unit Testing with Vitest
 
 Writing unit tests for stores, utility functions, and context helpers using **Vitest** with a multi-project setup to handle different environments:
 
@@ -68,11 +53,11 @@ Each test file is **co-located** next to the source file it tests.
 
 ---
 
-### 5. Integration Testing — Component Tests with Vitest Browser
+### 4. Component Testing with Vitest Browser
 
-Writing **component (integration) tests** that render Svelte components in a real **Chromium browser** using [vitest-browser-svelte](https://github.com/vitest-dev/vitest-browser-svelte). These tests sit between unit tests and E2E tests: they verify that components render correctly and respond to user interactions, without requiring a running dev server.
+Writing **component tests** that render Svelte components in a real **Chromium browser** using [vitest-browser-svelte](https://github.com/vitest-dev/vitest-browser-svelte). These tests sit between unit tests and E2E tests: they verify that components render correctly and respond to user interactions, without requiring a running dev server.
 
-Because child components like `Filters` and `ManageColumns` rely on Svelte's Context API (set up by `DataTable`), they are tested by rendering the full `DataTable` component — making these **integration tests** in practice.
+Because child components like `Filters` and `ManageColumns` rely on Svelte's Context API (set up by `DataTable`), they are tested by rendering the full `DataTable` as the host — making these tests closer to **integration tests** in practice.
 
 Libraries used: [Vitest](https://vitest.dev/) + [@vitest/browser](https://vitest.dev/guide/browser/) + [vitest-browser-svelte](https://github.com/vitest-dev/vitest-browser-svelte)
 
@@ -84,6 +69,21 @@ Libraries used: [Vitest](https://vitest.dev/) + [@vitest/browser](https://vitest
 - `DataTable` component tests: [`src/lib/components/DataTable/components/DataTable.svelte.component.test.ts`](./src/lib/components/DataTable/components/DataTable.svelte.component.test.ts)
 - `Filters` component tests: [`src/lib/components/DataTable/components/Filters.svelte.component.test.ts`](./src/lib/components/DataTable/components/Filters.svelte.component.test.ts)
 - `ManageColumns` component tests: [`src/lib/components/DataTable/components/ManageColumns.svelte.component.test.ts`](./src/lib/components/DataTable/components/ManageColumns.svelte.component.test.ts)
+
+---
+
+### 5. UAT-based E2E Testing with Playwright + BDD
+
+Writing end-to-end tests using the **BDD (Behavior-Driven Development)** approach with **Gherkin** syntax (`Given / When / Then`). Each scenario is written from the user's perspective as a _user story_, aligning with **User Acceptance Testing (UAT)**.
+
+Libraries used: [Playwright](https://playwright.dev/) + [playwright-bdd](https://github.com/vitalets/playwright-bdd)
+
+**Implementation:**
+
+- View user list scenarios: [`tests/e2e/viewUserList.feature`](./tests/e2e/viewUserList.feature)
+- Filter user list scenarios: [`tests/e2e/filterUserList.feature`](./tests/e2e/filterUserList.feature)
+- Manage column visibility scenarios: [`tests/e2e/manageColumnVisibility.feature`](./tests/e2e/manageColumnVisibility.feature)
+- Shared step definitions: [`tests/e2e/shared.e2e.test.ts`](./tests/e2e/shared.e2e.test.ts)
 
 ---
 
