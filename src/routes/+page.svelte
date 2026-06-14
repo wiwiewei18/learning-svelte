@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DataTable, defineDataTable, InMemoryDataTableStore } from '$lib';
+	import { DataTable, defineDataTable, ClientSideDataTableStore } from '$lib';
 
 	type User = {
 		name: string;
@@ -103,7 +103,7 @@
 		]
 	});
 
-	const store = new InMemoryDataTableStore();
+	const store = new ClientSideDataTableStore();
 	store.init(table.columns, table.rows);
 </script>
 

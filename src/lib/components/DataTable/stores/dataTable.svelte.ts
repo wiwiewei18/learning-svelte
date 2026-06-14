@@ -5,7 +5,7 @@ import type { Column, Row } from '../types';
  *
  * Used for dependency injection into DataTable components.
  * Implement this interface to create different store strategies
- * (e.g. `InMemoryDataTableStore`, `ServerSideDataTableStore`).
+ * (e.g. `ClientSideDataTableStore`, `ServerSideDataTableStore`).
  */
 export interface IDataTableStore {
 	/** Column definitions for the table. */
@@ -27,7 +27,7 @@ export interface IDataTableStore {
 	readonly shouldShowManageColumns: boolean;
 
 	/**
-	 * Initialises the store with column definitions and row data.
+	 * Initializes the store with column definitions and row data.
 	 * @param columns - Column definitions.
 	 * @param rows - Row data.
 	 */
@@ -66,7 +66,7 @@ export interface IDataTableStore {
  * ### What subclasses must implement
  * - `rows` — differs by data source (all data vs. paginated server response)
  * - `filteredRows` — client-side `$derived` vs. direct server response
- * - `init` — in-memory receives rows directly; server-side may only receive columns
+ * - `init` — client-side receives rows directly; server-side may only receive columns
  * - `onFiltersChanged` — hook called after every filter change (Template Method pattern)
  */
 export abstract class BaseDataTableStore implements IDataTableStore {
@@ -117,7 +117,7 @@ export abstract class BaseDataTableStore implements IDataTableStore {
 	 *
 	 * Override this in subclasses that need to react to filter changes,
 	 * for example to trigger a debounced server fetch.
-	 * In-memory implementations should leave this as a no-op.
+	 * Client-side implementations should leave this as a no-op.
 	 */
 	protected abstract onFiltersChanged(): void;
 
