@@ -44,6 +44,8 @@ Writing unit tests for stores, utility functions, and context helpers using **Vi
 
 Each test file is **co-located** next to the source file it tests.
 
+Libraries used: [Vitest](https://vitest.dev/) + [@vitest/browser](https://vitest.dev/guide/browser/)
+
 **Implementation:**
 
 - Base store tests: [`src/lib/components/DataTable/stores/dataTable.svelte.unit.test.ts`](./src/lib/components/DataTable/stores/dataTable.svelte.unit.test.ts)
